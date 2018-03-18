@@ -1,5 +1,6 @@
 export interface ICreateSample {
-  name: string; // filename without extensions
+  name: string; // name (will be used as filename when no filename is supplied)
+  filename?: string; // can be used to use another filename than the name
   extension?: string; // forces an extension for this sample
   path?: string; // appends a path to the main path
   data?: any; // optional data, for example to put samples in a group

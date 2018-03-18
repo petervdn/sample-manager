@@ -18,6 +18,7 @@ export function createSamplesWithName(names: string[]): ICreateSample[] {
 export function createSample(data: ICreateSample): ICreateSample {
   return {
     name: data.name,
+    filename: data.filename,
     extension: data.extension,
     path: data.path,
   };
@@ -61,7 +62,7 @@ export function loadSamples(
       return Promise.resolve();
     }
 
-    const url = `${path}${sample.path || ''}${sample.name}.${sample.extension || extension}`;
+    const url = `${path}${sample.path || ''}${sample.filename}.${sample.extension || extension}`;
     return loadAudioBuffer(
       context,
       url,
