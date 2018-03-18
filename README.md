@@ -67,7 +67,7 @@ import { createSamplesFromNames } from 'sample-maanger';
 const samples = createSamplesFromNames('sample1', 'sample2');
 ```
 
-Or add them directly to the manager:
+Or even quicker: add them directly to the manager:
 
 ```typescript
 manager.addSamplesFromNames(['sample1', 'sample2']);
