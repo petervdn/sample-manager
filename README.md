@@ -19,7 +19,7 @@ const manager = new SampleManager(context, 'path/to/samples');
 ```
 
 ### adding samples
-After this, you can add samples to the manager by using the `addSample` or `addSamples` method, which both need objects that adhere to the ICreateSample interface.
+After this, you can add samples to the manager by using the `addSample` or `addSamples` method, which both need objects that adhere to the `ICreateSample` interface.
 
 ```typescript
 interface ICreateSample {
@@ -74,7 +74,7 @@ manager.addSamplesFromNames(['sample1', 'sample2']);
 ```
 
 ### sample objects
-After adding, all objects will be converted to adhere to the `ISample` interface, which extends `ICreateSample` and adds two properties: `audioBuffer` and `fileSize` (which default to `null` and `-1` but will have proper data once the sample is loaded). It also makes the `fileName` property no longer optional (will be either the `name` or `fileName` from the original object).   
+After adding, all objects will be converted to the `ISample` interface, which extends `ICreateSample` and adds two properties: `audioBuffer` and `fileSize` (which default to `null` and `-1` but will have proper data once the sample is loaded). It also makes the `fileName` property no longer optional (will be either the `name` or `fileName` from the original object).   
 
 ```typescript
 interface ISample extends ICreateSample {
@@ -101,7 +101,7 @@ Optionally, you can add a callback that will track the overall loadprogress.
 manager.loadAllSamples(
   'mp3',
   progress => {
-    progressBar.width = progress ` 100;   
+    progressBar.width = progress * 100;   
   },
  )
 ```
