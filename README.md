@@ -64,7 +64,7 @@ When you don't have any special exceptions regarding path, filename or extension
 ```typescript
 import { createSamplesFromNames } from 'sample-maanger';
 
-const samples = createSamplesFromNames('sample1', 'sample2');
+const samples = createSamplesFromNames(['sample1', 'sample2']);
 ```
 
 Or even quicker: add them directly to the manager:
