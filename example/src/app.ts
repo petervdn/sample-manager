@@ -9,6 +9,6 @@ samples[2].extension = 'mp3';
 
 const manager = new SampleManager(context, 'samples/');
 manager.addSamples(samples);
-manager.loadAllSamples('wav').then(() => {
+manager.loadAllSamples('wav', value => {console.log(value)}).then(() => {
   console.log(manager.getSampleByName('kick'));
 });

@@ -15,15 +15,16 @@ export default class SampleManager {
   /**
    * Loads all samples that are currently present.
    * @param {string} extension
+   * @param {(value: number) => void} onProgress
    * @returns {Promise<void>}
    */
-  public loadAllSamples(extension: string): Promise<void> {
+  public loadAllSamples(extension: string, onProgress?: (value: number) => void): Promise<void> {
     return new Promise((resolve, reject) => {
       if (this.isLoading) {
         reject('Already loading');
       } else {
         this.isLoading = true;
-        loadSamples(this.context, this.getSamples(), extension, this.path).then(() => {
+        loadSamples(this.context, this.getSamples(), extension, this.path, onProgress).then(() => {
           this.isLoading = false;
           resolve();
         });
