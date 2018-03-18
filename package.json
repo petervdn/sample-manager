@@ -1,7 +1,7 @@
 {
-  "name": "webaudio-sample-loader",
+  "name": "sample-manager",
   "version": "1.0.0",
-  "description": "Load samples with the Web Audio API, using a handy short config.",
+  "description": "Create, load and keep track of samples.",
   "main": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
@@ -56,11 +56,11 @@
     "mp3"
   ],
   "bugs": {
-    "url": "https://github.com/petervdn/webaudio-sample-loader/issues"
+    "url": "https://github.com/petervdn/sample-manager/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/petervdn/webaudio-sample-loader.git"
+    "url": "https://github.com/petervdn/sample-manager.git"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.35",
