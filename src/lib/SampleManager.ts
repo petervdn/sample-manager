@@ -4,20 +4,31 @@ import { loadSamples } from './utils';
 export default class SampleManager {
   private samplesMap: { [name: string]: ISample } = {};
   private context: AudioContext;
-  private path: string;
+  private path: string = '';
+  private isLoading: boolean = false;
 
-  constructor(audioContext: AudioContext, path: string) {
+  constructor(audioContext: AudioContext, path?: string) {
     this.context = audioContext;
     this.path = path;
   }
 
   /**
-   * Loads all samples that are currently added.
+   * Loads all samples that are currently present.
    * @param {string} extension
    * @returns {Promise<void>}
    */
   public loadAllSamples(extension: string): Promise<void> {
-    return loadSamples(this.context, this.getSamples(), extension, this.path);
+    return new Promise((resolve, reject) => {
+      if (this.isLoading) {
+        reject('Already loading');
+      } else {
+        this.isLoading = true;
+        loadSamples(this.context, this.getSamples(), extension, this.path).then(() => {
+          this.isLoading = false;
+          resolve();
+        });
+      }
+    });
   }
 
   /**
