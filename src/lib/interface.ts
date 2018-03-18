@@ -7,7 +7,7 @@ export interface ICreateSample {
 }
 
 export interface ISample extends ICreateSample {
-  audioBuffer?: AudioBuffer; // set by the library when loaded
-  fileSize?: number; // fileSize of the loaded file (the compressed audio)
+  audioBuffer: AudioBuffer;
+  fileSize: number;
   fileName: string;
 }

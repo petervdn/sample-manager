@@ -9,7 +9,7 @@ npm install sample-manager
 
 ### creating the manager
 
-To create the SampleManager, you need an *AudioContext* instance and a basepath where the actual sample-files are located. 
+To create the SampleManager, you need an `AudioContext` instance and a basepath where the actual sample-files are located. 
 
 ```typescript
 import { SampleManager } from 'sample-manager';
@@ -19,7 +19,7 @@ const manager = new SampleManager(context, 'path/to/samples');
 ```
 
 ### adding samples
-After this, you can add samples to the manager by using the *addSample* or *addSamples* method, which both need objects that adhere to the ICreateSample interface.
+After this, you can add samples to the manager by using the `addSample` or `addSamples` method, which both need objects that adhere to the ICreateSample interface.
 
 ```typescript
 export interface ICreateSample {
@@ -30,7 +30,7 @@ export interface ICreateSample {
   data?: any; // optional data, for example to put samples in a group
 }
 ```
-Only the *name* property is mandatory, all others are optional. The *name* can be anything but will be used as filename when the *fileName* property is not set.
+Only the `name` property is mandatory, all others are optional. The `name` can be anything but will be used as filename when the `fileName` property is not set.
 
 ```typescript
 const samples = [
@@ -51,7 +51,7 @@ const samples = [
   },
 ]
 ```
-__Extensions (.mp3, .wav) should never be added to the name or filename, this needs to be supplied when actually loading the samples__
+__Extensions (.mp3, .wav) should never be added to the name (when using name as filename) or filename, this needs to be supplied when actually loading the samples__
 
 When you have a list of these objects, you can add them to the SampleManager instance:
 
@@ -59,7 +59,7 @@ When you have a list of these objects, you can add them to the SampleManager ins
 manager.addSamples(samples);
 ```
 
-When you don't have any special exceptions regarding path, filename or extension, and only want to use the *name* field, you can use the *createSamplesFromNames* function like so:
+When you don't have any special exceptions regarding path, filename or extension, and only want to use the `name` field, you can use the `createSamplesFromNames` function like so:
 
 ```typescript
 import { createSamplesFromNames } from 'sample-maanger';
@@ -73,8 +73,11 @@ Or add them directly to the manager:
 manager.addSamplesFromNames(['sample1', 'sample2']);
 ```
 
+### sample objects
+After adding, the objects will all adhere to the `ISample` interface, which extends `ICreateSample` and adds two properties: `audioBuffer` (defaults to `null`) and `fileSize` (default to `-1`). It also  
+
 ### loading samples
- When samples have been added, you can load them using the *loadAllSamples* method (returns a promise), which requires an extension (this way you can easily swap everything you load from wav to mp3). Samples that have been added with their own *extension* property will ignore the parameter you give to the *loadAllSamples* method.
+ When samples have been added, you can load them using the `loadAllSamples` method (returns a promise), which requires an extension (this way you can easily swap everything you load from wav to mp3). Samples that have been added with their own `extension` property will ignore the parameter you give to the `loadAllSamples` method.
  
  ```typescript
 manager.loadAllSamples('mp3')
@@ -89,7 +92,7 @@ Optionally, you can add a callback that will track the overall loadprogress.
 manager.loadAllSamples(
   'mp3',
   progress => {
-    progressBar.width = progress * 100;   
+    progressBar.width = progress ` 100;   
   },
  )
 ```
