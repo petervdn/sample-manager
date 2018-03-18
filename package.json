@@ -1,6 +1,6 @@
 {
   "name": "webaudio-sample-loader",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "description": "Load samples with the Web Audio API, using a handy short config.",
   "main": "./index.js",
   "types": "./index.d.ts",
