@@ -6,7 +6,7 @@ import { ICreateSample, ISample } from './interface';
  * @param {string[]} names
  * @returns {ISample[]}
  */
-export function createSamplesWithName(names: string[]): ICreateSample[] {
+export function createSamplesFromNames(names: string[]): ICreateSample[] {
   return names.map(name => createSample({ name }));
 }
 

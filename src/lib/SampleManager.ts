@@ -1,5 +1,5 @@
 import { ICreateSample, ISample } from './interface';
-import { loadSamples } from './utils';
+import { createSamplesFromNames, loadSamples } from './utils';
 
 export default class SampleManager {
   private samplesMap: { [name: string]: ISample } = {};
@@ -72,6 +72,14 @@ export default class SampleManager {
    */
   public addSamples(samples: ICreateSample[]): void {
     samples.forEach(createSample => this.addSample(createSample));
+  }
+
+  /**
+   * Creates and adds samples from a list of names.
+   * @param {string[]} names
+   */
+  public addSamplesFromNames(names: string[]): void {
+    this.addSamples(createSamplesFromNames(names));
   }
 
   /**

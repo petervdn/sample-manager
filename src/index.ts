@@ -1,3 +1,3 @@
 export { default as SampleManager } from './lib/SampleManager';
 
-export { createSample, createSamplesWithName, loadSamples } from './lib/utils';
+export { createSample, createSamplesFromNames, loadSamples } from './lib/utils';
