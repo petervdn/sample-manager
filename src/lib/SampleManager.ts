@@ -63,7 +63,7 @@ export default class SampleManager {
       // add to hashmap
       this.samplesMap[sample.name] = sample;
     } else {
-      throw new Error(`Sample with ma,e ${createSample.name} already exists`);
+      throw new Error(`Sample with name ${createSample.name} already exists`);
     }
   }
 
