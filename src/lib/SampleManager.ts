@@ -4,12 +4,12 @@ import { loadSamples } from './utils';
 export default class SampleManager {
   private samplesMap: { [name: string]: ISample } = {};
   private context: AudioContext;
-  private path: string = '';
+  private basePath: string = '';
   private isLoading: boolean = false;
 
-  constructor(audioContext: AudioContext, path: string) {
+  constructor(audioContext: AudioContext, basePath: string) {
     this.context = audioContext;
-    this.path = path;
+    this.basePath = basePath;
   }
 
   /**
@@ -24,10 +24,12 @@ export default class SampleManager {
         reject('Already loading');
       } else {
         this.isLoading = true;
-        loadSamples(this.context, this.getSamples(), extension, this.path, onProgress).then(() => {
-          this.isLoading = false;
-          resolve();
-        });
+        loadSamples(this.context, this.getSamples(), extension, this.basePath, onProgress).then(
+          () => {
+            this.isLoading = false;
+            resolve();
+          },
+        );
       }
     });
   }
