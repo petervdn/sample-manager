@@ -1,23 +1,25 @@
 import { loadAudioBuffer } from 'audiobuffer-loader';
+import { ICreateSample, ISample } from './interface';
 
-export interface ISample {
-  name: string; // filename without extensions
-  extension?: string; // forces an extension for this sample
-  path?: string; // forces a path
-  data?: any; // optional data, for example to put samples in a group
-  audioBuffer?: AudioBuffer; // set by the library when loaded
-  fileSize?: number; // fileSize of the loaded file (the compressed audio)
+/**
+ * Creates a list of ICreateSample instances with only the name-field set.
+ * @param {string[]} names
+ * @returns {ISample[]}
+ */
+export function createSamplesWithName(names: string[]): ICreateSample[] {
+  return names.map(name => createSample({ name }));
 }
 
-export function createSamples(names: string[]): ISample[] {
-  return names.map(name => createSample(name));
-}
-
-export function createSample(name: string, extension?: string, path?: string): ISample {
+/**
+ * Creates an ICreateSample instance.
+ * @param {ICreateSample} data
+ * @returns {ICreateSample}
+ */
+export function createSample(data: ICreateSample): ICreateSample {
   return {
-    name,
-    extension,
-    path,
+    name: data.name,
+    extension: data.extension,
+    path: data.path,
   };
 }
 

@@ -1,7 +1,7 @@
-import { loadAudioBuffer, loadSamples, createSamples, createSample } from '../../src/lib/webaudio-sample-loader';
+import { loadSamples, createSamplesWithName } from '../../src/lib/utils';
 
 const context = new AudioContext();
-const samples = createSamples(['kick', 'clap', 'orbit']);
+const samples = createSamplesWithName(['kick', 'clap', 'orbit']);
 
 samples[1].path = 'other-path/';
 samples[2].extension = 'mp3';
