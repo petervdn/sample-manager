@@ -49,7 +49,7 @@ export default class SampleManager {
       // create actual sample object
       const sample: ISample = {
         name: createSample.name,
-        filename: createSample.filename || createSample.name,
+        fileName: createSample.fileName || createSample.name,
         path: createSample.path || null,
         extension: createSample.extension || null,
         data: createSample.data || null,

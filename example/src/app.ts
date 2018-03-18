@@ -4,11 +4,12 @@ import SampleManager from "../../src/lib/SampleManager";
 const context = new AudioContext();
 const samples = createSamplesWithName(['kickdrum', 'clap', 'orbit']);
 
-samples[0].filename = 'kick';
+samples[0].fileName = 'kick';
+samples[1].path = 'other-path/';
 samples[2].extension = 'mp3';
 
 const manager = new SampleManager(context, 'samples/');
 manager.addSamples(samples);
-manager.loadAllSamples('wav', value => {console.log(value)}).then(() => {
+manager.loadAllSamples('wav', console.log).then(() => {
   console.log(manager.getSampleByName('kickdrum'));
 });

@@ -18,7 +18,7 @@ export function createSamplesWithName(names: string[]): ICreateSample[] {
 export function createSample(data: ICreateSample): ICreateSample {
   return {
     name: data.name,
-    filename: data.filename,
+    fileName: data.fileName,
     extension: data.extension,
     path: data.path,
   };
@@ -40,10 +40,10 @@ export function loadSamples(
   path: string,
   onProgress?: (value: number) => void,
 ): Promise<void> {
-  // if there is an onProgress supplied, we need to keep track of every samples' (load) progress
+  // if there is an onProgress supplied, we need to keep track of every samples' load progress
   let callback;
   if (onProgress) {
-    // create list of progress-values for all samples (set to 1 if they're loaded aldready)
+    // create list of progress-values for all samples (set to 1 if they're loaded already)
     const progressValues = samples.map(sample => (sample.audioBuffer ? 1 : 0));
 
     // create the callback-method that is passed to every load action
@@ -62,7 +62,8 @@ export function loadSamples(
       return Promise.resolve();
     }
 
-    const url = `${path}${sample.path || ''}${sample.filename}.${sample.extension || extension}`;
+    // construct url and load the buffer
+    const url = `${path}${sample.path || ''}${sample.fileName}.${sample.extension || extension}`;
     return loadAudioBuffer(
       context,
       url,
@@ -72,6 +73,7 @@ export function loadSamples(
           }
         : null,
     ).then(result => {
+      // set resulting buffer on the sample object
       sample.audioBuffer = result.audioBuffer;
       sample.fileSize = result.fileSize;
     });
