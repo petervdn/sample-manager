@@ -1,5 +1,4 @@
-import { createSamplesWithName } from '../../src/lib/utils';
-import SampleManager from "../../src/lib/SampleManager";
+import { createSamplesWithName, SampleManager } from '../../src/';
 
 const context = new AudioContext();
 const samples = createSamplesWithName(['kickdrum', 'clap', 'orbit']);

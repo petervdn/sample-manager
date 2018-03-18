@@ -7,7 +7,7 @@ export default class SampleManager {
   private path: string = '';
   private isLoading: boolean = false;
 
-  constructor(audioContext: AudioContext, path?: string) {
+  constructor(audioContext: AudioContext, path: string) {
     this.context = audioContext;
     this.path = path;
   }
