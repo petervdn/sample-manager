@@ -38,7 +38,7 @@ export function loadSamples(
   extension: string,
   path: string,
   onProgress?: (value: number) => void,
-): Promise<ISample[]> {
+): Promise<void> {
   // if there is an onProgress supplied, we need to keep track of every samples' (load) progress
   let callback;
   if (onProgress) {
@@ -62,12 +62,20 @@ export function loadSamples(
     }
 
     const url = `${path}${sample.path || ''}${sample.name}.${sample.extension || extension}`;
-    return loadAudioBuffer(context, url, value => {
-      callback(sampleIndex, value);
-    }).then(result => {
+    return loadAudioBuffer(
+      context,
+      url,
+      callback
+        ? value => {
+            callback(sampleIndex, value);
+          }
+        : null,
+    ).then(result => {
       sample.audioBuffer = result.audioBuffer;
       sample.fileSize = result.fileSize;
     });
   });
-  return Promise.all(loadPromises).then(() => samples);
+  return Promise.all(loadPromises).then(() => {
+    return;
+  });
 }
