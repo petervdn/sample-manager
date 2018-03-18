@@ -74,7 +74,7 @@ manager.addSamplesFromNames(['sample1', 'sample2']);
 ```
 
 ### sample objects
-After adding, all objects will be converted to adhere to the `ISample` interface, which extends `ICreateSample` and adds two properties: `audioBuffer` and `fileSize` (which default to `null` and `-1` but will have proper data once the samples is loaded). It also makes the `fileName` property no longer optional (will be either the `name` or `fileName` from the original object).   
+After adding, all objects will be converted to adhere to the `ISample` interface, which extends `ICreateSample` and adds two properties: `audioBuffer` and `fileSize` (which default to `null` and `-1` but will have proper data once the sample is loaded). It also makes the `fileName` property no longer optional (will be either the `name` or `fileName` from the original object).   
 
 ```typescript
 interface ISample extends ICreateSample {
@@ -106,3 +106,10 @@ manager.loadAllSamples(
  )
 ```
 Note that this callback will not be fired at all during decoding (which happens after a file is loaded). This may not be noticable for smaller files, but when you have files containing many minutes of audio the progress will not change for a while. 
+
+
+### retrieving samples
+```typescript
+const sample = manager.getSampleByName('kickdrum');
+const samples = manager.getSamples();
+```
