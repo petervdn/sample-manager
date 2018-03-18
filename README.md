@@ -22,7 +22,7 @@ const manager = new SampleManager(context, 'path/to/samples');
 After this, you can add samples to the manager by using the `addSample` or `addSamples` method, which both need objects that adhere to the ICreateSample interface.
 
 ```typescript
-export interface ICreateSample {
+interface ICreateSample {
   name: string; // name (will be used as filename when no filename is supplied)
   fileName?: string; // can be used to use another filename than the name
   extension?: string; // forces an extension for this sample
@@ -74,7 +74,16 @@ manager.addSamplesFromNames(['sample1', 'sample2']);
 ```
 
 ### sample objects
-After adding, the objects will all adhere to the `ISample` interface, which extends `ICreateSample` and adds two properties: `audioBuffer` (defaults to `null`) and `fileSize` (default to `-1`). It also  
+After adding, all objects will be converted to adhere to the `ISample` interface, which extends `ICreateSample` and adds two properties: `audioBuffer` and `fileSize` (which default to `null` and `-1` but will have proper data once the samples is loaded). It also makes the `fileName` property no longer optional (will be either the `name` or `fileName` from the original object).   
+
+```typescript
+interface ISample extends ICreateSample {
+  audioBuffer: AudioBuffer;
+  fileSize: number;
+  fileName: string;
+}
+
+```
 
 ### loading samples
  When samples have been added, you can load them using the `loadAllSamples` method (returns a promise), which requires an extension (this way you can easily swap everything you load from wav to mp3). Samples that have been added with their own `extension` property will ignore the parameter you give to the `loadAllSamples` method.
