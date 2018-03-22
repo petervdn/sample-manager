@@ -71,7 +71,7 @@
 </code></pre>
 				<h3 id="creating-the-manager">creating the manager</h3>
 				<p>To create the SampleManager, you need an <code>AudioContext</code> instance and a basepath where the actual sample-files are located. </p>
-				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { SampleManager } <span class="hljs-keyword">from</span> <span class="hljs-string">'sample-manager'</span>;
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> SampleManager <span class="hljs-keyword">from</span> <span class="hljs-string">'sample-manager'</span>;
 
 <span class="hljs-keyword">const</span> context = <span class="hljs-keyword">new</span> AudioContext();
 <span class="hljs-keyword">const</span> manager = <span class="hljs-keyword">new</span> SampleManager(context, <span class="hljs-string">'path/to/samples'</span>);
@@ -110,7 +110,7 @@
 				<pre><code class="lang-typescript">manager.addSamples(samples);
 </code></pre>
 				<p>When you don&#39;t have any special exceptions regarding path, filename or extension, and only want to use the <code>name</code> field, you can use the <code>createSamplesFromNames</code> function like so:</p>
-				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { createSamplesFromNames } <span class="hljs-keyword">from</span> <span class="hljs-string">'sample-maanger'</span>;
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { createSamplesFromNames } <span class="hljs-keyword">from</span> <span class="hljs-string">'sample-manager'</span>;
 
 <span class="hljs-keyword">const</span> samples = createSamplesFromNames([<span class="hljs-string">'sample1'</span>, <span class="hljs-string">'sample2'</span>]);
 </code></pre>
@@ -132,7 +132,10 @@
     <span class="hljs-comment">// done</span>
   })
 </code></pre>
-				<p>Optionally, you can add a callback that will track the overall loadprogress.</p>
+				<p>If you want to load only a subset:</p>
+				<pre><code class="lang-typescript">manager.loadSamplesByName([<span class="hljs-string">'bird'</span>, <span class="hljs-string">'car'</span>], <span class="hljs-string">'wav'</span>);
+</code></pre>
+				<p>Both the <code>loadAllSamples</code> and <code>loadSamplesByName</code> method accept an optional callback (last parameter) to track the overall load progress.  </p>
 				<pre><code class="lang-typescript">manager.loadAllSamples(
   <span class="hljs-string">'mp3'</span>,
   <span class="hljs-function"><span class="hljs-params">progress</span> =&gt;</span> {
