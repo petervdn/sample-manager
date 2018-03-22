@@ -62,7 +62,7 @@ manager.addSamples(samples);
 When you don't have any special exceptions regarding path, filename or extension, and only want to use the `name` field, you can use the `createSamplesFromNames` function like so:
 
 ```typescript
-import { createSamplesFromNames } from 'sample-maanger';
+import { createSamplesFromNames } from 'sample-manager';
 
 const samples = createSamplesFromNames(['sample1', 'sample2']);
 ```
