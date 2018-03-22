@@ -1,6 +1,6 @@
 {
   "name": "sample-manager",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Create, load and keep track of samples.",
   "main": "./index.js",
   "types": "./index.d.ts",
