@@ -12,7 +12,7 @@ npm install sample-manager
 To create the SampleManager, you need an `AudioContext` instance and a basepath where the actual sample-files are located. 
 
 ```typescript
-import { SampleManager } from 'sample-manager';
+import SampleManager from 'sample-manager';
 
 const context = new AudioContext();
 const manager = new SampleManager(context, 'path/to/samples');
@@ -95,7 +95,12 @@ manager.loadAllSamples('mp3')
   })
 ```
 
-Optionally, you can add a callback that will track the overall loadprogress.
+If you want to load only a subset:
+```typescript
+manager.loadSamplesByName(['bird', 'car'], 'wav');
+```
+
+Both the `loadAllSamples` and `loadSamplesByName` method accept an optional callback (last parameter) to track the overall load progress.  
 
 ```typescript
 manager.loadAllSamples(
