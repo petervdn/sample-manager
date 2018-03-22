@@ -14,32 +14,83 @@ export default class SampleManager {
   }
 
   /**
-   * Loads all samples that are currently present.
+   * Loads all samples that are currently present. Returns a promise.
    * @param {string} extension
    * @param {(value: number) => void} onProgress
    * @returns {Promise<void>}
    */
   public loadAllSamples(extension: string, onProgress?: (value: number) => void): Promise<void> {
+    return this.loadSamples(this.getAllSamples(), extension, onProgress);
+  }
+
+  /**
+   * Loads a list of samples, returns a promise.
+   * @param {ISample[]} samples
+   * @param {string} extension
+   * @param {(value: number) => void} onProgress
+   * @returns {Promise<void>}
+   */
+  private loadSamples(
+    samples: ISample[],
+    extension: string,
+    onProgress?: (value: number) => void,
+  ): Promise<void> {
+    // todo check if sample exists in this manager?
     return new Promise((resolve, reject) => {
       if (this.isLoading) {
         reject('Already loading');
       } else {
         this.isLoading = true;
-        loadSamples(this.context, this.getSamples(), extension, this.basePath, onProgress).then(
-          () => {
-            this.isLoading = false;
-            resolve();
-          },
-        );
+        loadSamples(this.context, samples, extension, this.basePath, onProgress).then(() => {
+          this.isLoading = false;
+          resolve();
+        });
       }
     });
+  }
+
+  /**
+   * Loads a list of samples by their names. Returned promise will be rejected if one or more
+   * samples can not be found (nothing will be loaded).
+   * @param {string[]} names
+   * @param {string} extension
+   * @param {(value: number) => void} onProgress
+   * @returns {Promise<void>}
+   */
+  public loadSamplesByName(
+    names: string[],
+    extension: string,
+    onProgress?: (value: number) => void,
+  ): Promise<void> {
+    // check if all samples exist in the manager
+    const results = {
+      foundSamples: [],
+      notFoundNames: [],
+    };
+    names.forEach(name => {
+      if (this.samplesMap[name]) {
+        results.foundSamples.push(this.samplesMap[name]);
+      } else {
+        results.notFoundNames.push(name);
+      }
+    });
+
+    if (results.notFoundNames.length > 0) {
+      return Promise.reject(
+        `Missing ${results.notFoundNames.length} sample${
+          results.notFoundNames.length === 1 ? '' : 's'
+        } in manager: ${results.notFoundNames.join(', ')}`,
+      );
+    }
+
+    return this.loadSamples(results.foundSamples, extension, onProgress);
   }
 
   /**
    * Gets the list of the current samples.
    * @returns {ISample[]}
    */
-  public getSamples(): ISample[] {
+  public getAllSamples(): ISample[] {
     return Object.keys(this.samplesMap).map(key => this.samplesMap[key]);
   }
 
