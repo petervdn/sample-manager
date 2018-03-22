@@ -1,5 +1,5 @@
-export { default as SampleManager } from './lib/SampleManager';
+import SampleManager from './lib/SampleManager';
+export default SampleManager;
 
-export { createSample, createSamplesFromNames, loadSamples } from './lib/utils';
-
-export { ISample, ICreateSample } from './lib/interface';
+export * from './lib/utils';
+export * from './lib/interface';
