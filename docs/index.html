@@ -70,11 +70,11 @@
 				<pre><code class="lang-sh">npm install sample-manager
 </code></pre>
 				<h3 id="creating-the-manager">creating the manager</h3>
-				<p>To create the SampleManager, you need an <code>AudioContext</code> instance and a basepath where the actual sample-files are located. </p>
+				<p>To create the SampleManager, you need an <code>AudioContext</code> instance, a basepath where the sample-files are located and a default extension for the samples. </p>
 				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> SampleManager <span class="hljs-keyword">from</span> <span class="hljs-string">'sample-manager'</span>;
 
 <span class="hljs-keyword">const</span> context = <span class="hljs-keyword">new</span> AudioContext();
-<span class="hljs-keyword">const</span> manager = <span class="hljs-keyword">new</span> SampleManager(context, <span class="hljs-string">'path/to/samples'</span>);
+<span class="hljs-keyword">const</span> manager = <span class="hljs-keyword">new</span> SampleManager(context, <span class="hljs-string">'path/to/samples'</span>, <span class="hljs-string">'mp3'</span>);
 </code></pre>
 				<h3 id="adding-samples">adding samples</h3>
 				<p>After this, you can add samples to the manager by using the <code>addSample</code> or <code>addSamples</code> method, which both need objects that adhere to the <code>ICreateSample</code> interface.</p>
@@ -117,6 +117,7 @@
 				<p>Or even quicker: add them directly to the manager:</p>
 				<pre><code class="lang-typescript">manager.addSamplesFromNames([<span class="hljs-string">'sample1'</span>, <span class="hljs-string">'sample2'</span>]);
 </code></pre>
+				<p><strong>Sample names should be unique, adding a name that already exists will throw an error.</strong></p>
 				<h3 id="sample-objects">sample objects</h3>
 				<p>After adding, all objects will be converted to the <code>ISample</code> interface, which extends <code>ICreateSample</code> and adds two properties: <code>audioBuffer</code> and <code>fileSize</code> (which default to <code>null</code> and <code>-1</code> but will have proper data once the sample is loaded). It also makes the <code>fileName</code> property no longer optional (will be either the <code>name</code> or <code>fileName</code> from the original object).   </p>
 				<pre><code class="lang-typescript"><span class="hljs-keyword">interface</span> ISample <span class="hljs-keyword">extends</span> ICreateSample {
@@ -126,22 +127,18 @@
 }
 </code></pre>
 				<h3 id="loading-samples">loading samples</h3>
-				<p> When samples have been added, you can load them using the <code>loadAllSamples</code> method (returns a promise), which requires an extension (this way you can easily swap everything you load from wav to mp3). Samples that have been added with their own <code>extension</code> property will ignore the parameter you give to the <code>loadAllSamples</code> method.</p>
-				<pre><code class="lang-typescript">manager.loadAllSamples(<span class="hljs-string">'mp3'</span>)
-  .then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+				<p> When samples have been added, you can load them using the <code>loadAllSamples</code> method, which returns a promise.</p>
+				<pre><code class="lang-typescript">manager.loadAllSamples().then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
     <span class="hljs-comment">// done</span>
   })
 </code></pre>
-				<p>If you want to load only a subset:</p>
-				<pre><code class="lang-typescript">manager.loadSamplesByName([<span class="hljs-string">'bird'</span>, <span class="hljs-string">'car'</span>], <span class="hljs-string">'wav'</span>);
+				<p>If you want to load only a subset, you can refer to them by their name:</p>
+				<pre><code class="lang-typescript">manager.loadSamplesByName([<span class="hljs-string">'bird'</span>, <span class="hljs-string">'car'</span>]);
 </code></pre>
-				<p>Both the <code>loadAllSamples</code> and <code>loadSamplesByName</code> method accept an optional callback (last parameter) to track the overall load progress.  </p>
-				<pre><code class="lang-typescript">manager.loadAllSamples(
-  <span class="hljs-string">'mp3'</span>,
-  <span class="hljs-function"><span class="hljs-params">progress</span> =&gt;</span> {
-    progressBar.width = progress * <span class="hljs-number">100</span>;   
-  },
- )
+				<p>Both the <code>loadAllSamples</code> and <code>loadSamplesByName</code> method accept an optional callback to track the overall load progress.  </p>
+				<pre><code class="lang-typescript">manager.loadAllSamples(<span class="hljs-function"><span class="hljs-params">progress</span> =&gt;</span> {});
+
+manager.loadSamplesByName([<span class="hljs-string">'bird'</span>, <span class="hljs-string">'car'</span>], <span class="hljs-function"><span class="hljs-params">progress</span> =&gt;</span> {});
 </code></pre>
 				<p>Note that this callback will not be fired at all during decoding (which happens after a file is loaded). This may not be noticable for smaller files, but when you have files containing many minutes of audio the progress will not change for a while. </p>
 				<h3 id="retrieving-samples">retrieving samples</h3>
