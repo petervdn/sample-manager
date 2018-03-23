@@ -2,10 +2,18 @@ import { ICreateSample, ISample } from './interface';
 import { createSamplesFromNames, loadSamples } from './utils';
 
 export default class SampleManager {
+  public context: AudioContext;
+  public basePath: string;
+  public extension: string;
+
   private samplesMap: { [name: string]: ISample } = {};
   private isLoading: boolean = false;
 
-  constructor(public context: AudioContext, public basePath: string, public extension: string) {}
+  constructor(context: AudioContext, basePath: string, extension: string) {
+    this.context = context;
+    this.basePath = basePath;
+    this.extension = extension;
+  }
 
   /**
    * Loads all samples that are currently present. Returns a promise.
