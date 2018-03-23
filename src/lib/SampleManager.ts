@@ -5,47 +5,31 @@ export default class SampleManager {
   private samplesMap: { [name: string]: ISample } = {};
   private isLoading: boolean = false;
 
-  constructor(
-    public context: AudioContext,
-    public basePath: string,
-    public defaultExtension: string,
-  ) {}
+  constructor(public context: AudioContext, public basePath: string, public extension: string) {}
 
   /**
    * Loads all samples that are currently present. Returns a promise.
    * @param {(value: number) => void} onProgress
-   * @param {string} extension
    * @returns {Promise<void>}
    */
-  public loadAllSamples(onProgress?: (value: number) => void, extension?: string): Promise<void> {
-    return this.loadSamples(this.getAllSamples(), onProgress, extension);
+  public loadAllSamples(onProgress?: (value: number) => void): Promise<void> {
+    return this.loadSamples(this.getAllSamples(), onProgress);
   }
 
   /**
    * Loads a list of samples, returns a promise.
    * @param {ISample[]} samples
    * @param {(value: number) => void} onProgress
-   * @param {string} extension
    * @returns {Promise<void>}
    */
-  public loadSamples(
-    samples: ISample[],
-    onProgress?: (value: number) => void,
-    extension?: string,
-  ): Promise<void> {
+  public loadSamples(samples: ISample[], onProgress?: (value: number) => void): Promise<void> {
     // todo check if sample exists in this manager?
     return new Promise((resolve, reject) => {
       if (this.isLoading) {
         reject('Already loading');
       } else {
         this.isLoading = true;
-        loadSamples(
-          this.context,
-          samples,
-          this.defaultExtension || extension,
-          this.basePath,
-          onProgress,
-        ).then(() => {
+        loadSamples(this.context, samples, this.extension, this.basePath, onProgress).then(() => {
           this.isLoading = false;
           resolve();
         });
@@ -58,14 +42,9 @@ export default class SampleManager {
    * samples can not be found (nothing will be loaded).
    * @param {string[]} names
    * @param {(value: number) => void} onProgress
-   * @param {string} extension
    * @returns {Promise<void>}
    */
-  public loadSamplesByName(
-    names: string[],
-    onProgress?: (value: number) => void,
-    extension?: string,
-  ): Promise<void> {
+  public loadSamplesByName(names: string[], onProgress?: (value: number) => void): Promise<void> {
     // check if all samples exist in the manager
     const results = {
       foundSamples: [],
@@ -87,7 +66,7 @@ export default class SampleManager {
       );
     }
 
-    return this.loadSamples(results.foundSamples, onProgress, extension);
+    return this.loadSamples(results.foundSamples, onProgress);
   }
 
   /**
