@@ -9,13 +9,13 @@ npm install sample-manager
 
 ### creating the manager
 
-To create the SampleManager, you need an `AudioContext` instance and a basepath where the actual sample-files are located. 
+To create the SampleManager, you need an `AudioContext` instance, a basepath where the sample-files are located and a default file extension (without the dot). 
 
 ```typescript
 import SampleManager from 'sample-manager';
 
 const context = new AudioContext();
-const manager = new SampleManager(context, 'path/to/samples');
+const manager = new SampleManager(context, 'path/to/samples', 'mp3');
 ```
 
 ### adding samples
@@ -35,23 +35,23 @@ Only the `name` property is mandatory, all others are optional. The `name` can b
 ```typescript
 const samples = [
   {
-    name: 'sample1'
+    name: 'sample1' // when extension is 'mp3', this will load sample1.mp3 
   },
   {
     name: 'sample2',
-    extension: 'mp3' // will always load as mp3
+    extension: 'mp3' // will always load as mp3, and ignore the extension in the constructor
   },
   {
-      name: 'sample3',
-      fileName: 'sample3.v11.final2' // will not use the name to load the file 
-    },
+    name: 'sample3',
+    fileName: 'sample3.v11.final2' // will not use the name to load the file 
+  },
   {
     name: 'car',
-    path: 'car-sounds/' // will be appended to the path when loading 
+    path: 'car-sounds/' // will be appended to the basepath when loading 
   },
 ]
 ```
-__Extensions (.mp3, .wav) should never be added to the name (when using name as filename) or filename, this needs to be supplied when actually loading the samples__
+__Extensions (.mp3, .wav) should never be added to the name (when using name as filename) or filename, this needs to be supplied when actually loading the samples.__
 
 When you have a list of these objects, you can add them to the SampleManager instance:
 
@@ -73,6 +73,8 @@ Or even quicker: add them directly to the manager:
 manager.addSamplesFromNames(['sample1', 'sample2']);
 ```
 
+__Sample names should be unique, adding a name that already exists will throw an error.__
+
 ### sample objects
 After adding, all objects will be converted to the `ISample` interface, which extends `ICreateSample` and adds two properties: `audioBuffer` and `fileSize` (which default to `null` and `-1` but will have proper data once the sample is loaded). It also makes the `fileName` property no longer optional (will be either the `name` or `fileName` from the original object).   
 
@@ -86,29 +88,25 @@ interface ISample extends ICreateSample {
 ```
 
 ### loading samples
- When samples have been added, you can load them using the `loadAllSamples` method (returns a promise), which requires an extension (this way you can easily swap everything you load from wav to mp3). Samples that have been added with their own `extension` property will ignore the parameter you give to the `loadAllSamples` method.
+ When samples have been added, you can load them using the `loadAllSamples` method, which returns a promise.
  
  ```typescript
-manager.loadAllSamples('mp3')
-  .then(() => {
+manager.loadAllSamples().then(() => {
     // done
   })
 ```
 
-If you want to load only a subset:
+If you want to load only a subset, you can refer to them by their name:
 ```typescript
-manager.loadSamplesByName(['bird', 'car'], 'wav');
+manager.loadSamplesByName(['bird', 'car']);
 ```
 
-Both the `loadAllSamples` and `loadSamplesByName` method accept an optional callback (last parameter) to track the overall load progress.  
+Both the `loadAllSamples` and `loadSamplesByName` method accept an optional callback to track the overall load progress.  
 
 ```typescript
-manager.loadAllSamples(
-  'mp3',
-  progress => {
-    progressBar.width = progress * 100;   
-  },
- )
+manager.loadAllSamples(progress => {});
+
+manager.loadSamplesByName(['bird', 'car'], progress => {});
 ```
 Note that this callback will not be fired at all during decoding (which happens after a file is loaded). This may not be noticable for smaller files, but when you have files containing many minutes of audio the progress will not change for a while. 
 
