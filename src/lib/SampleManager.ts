@@ -68,9 +68,9 @@ export default class SampleManager {
 
     if (results.notFoundNames.length > 0) {
       return Promise.reject(
-        `Loading samples failed: ${results.notFoundNames.length} sample${
-          results.notFoundNames.length === 1 ? '' : 's'
-        } not found in manager: ${results.notFoundNames.join(', ')}`,
+        `Loading samples failed: ${
+          results.notFoundNames.length
+        } sample(s) not found in manager: ${results.notFoundNames.join(', ')}`,
       );
     }
 
