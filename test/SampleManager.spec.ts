@@ -3,7 +3,7 @@ import { createFakeServer } from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
 import 'web-audio-test-api';
 import SampleManager from '../src/lib/SampleManager';
-import { createSamplesFromNames, ISample, loadSamples } from '../src';
+import { createSamplesFromNames } from '../src';
 
 should();
 chai.use(chaiAsPromised);
@@ -27,14 +27,6 @@ describe('utils', () => {
       },
     ]);
   });
-
-  // it('should load samples', done => {
-  //   const samples:ISample[] = [{name: 'kick', fileName: 'kick', audioBuffer: null, fileSize: -1}];
-  //   loadSamples(context, samples, 'wav', '../_example/samples/').then(() => {
-  //     // do stuff
-  //     done();
-  //   });
-  // })
 });
 
 describe('sample-manager', () => {
@@ -52,7 +44,6 @@ describe('sample-manager', () => {
     server.respondWith('GET', '/samples/sample2.mp3', [200, {}, 'whatever']);
 
     server.autoRespond = true;
-    // server.autoRespondAfter = 500;
   });
 
   it('should construct', () => {
