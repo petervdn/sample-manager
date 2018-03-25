@@ -7,21 +7,7 @@ import { ICreateSample, ISample } from './interface';
  * @returns {ISample[]}
  */
 export function createSamplesFromNames(names: string[]): ICreateSample[] {
-  return names.map(name => createSample({ name }));
-}
-
-/**
- * Creates an ICreateSample instance.
- * @param {ICreateSample} data
- * @returns {ICreateSample}
- */
-export function createSample(data: ICreateSample): ICreateSample {
-  return {
-    name: data.name,
-    fileName: data.fileName,
-    extension: data.extension,
-    path: data.path,
-  };
+  return names.map(name => ({ name }));
 }
 
 /**
