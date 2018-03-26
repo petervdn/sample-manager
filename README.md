@@ -63,7 +63,7 @@ So when you don't have any special exceptions regarding path, filename or extens
 
 ```typescript
 const list = ['sample1', 'sample2'].map(name => ({name}));
-const samples = addSamples(list);
+manager.addSamples(list);
 ```
 
 __Sample names should be unique, adding a name that already exists will throw an error.__
