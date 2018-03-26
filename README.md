@@ -59,18 +59,11 @@ When you have a list of these objects, you can add them to the SampleManager ins
 manager.addSamples(samples);
 ```
 
-When you don't have any special exceptions regarding path, filename or extension, and only want to use the `name` field, you can use the `createSamplesFromNames` function like so:
+So when you don't have any special exceptions regarding path, filename or extension, you can just use the `name` field. Samples can then be quickly created like so:
 
 ```typescript
-import { createSamplesFromNames } from 'sample-manager';
-
-const samples = createSamplesFromNames(['sample1', 'sample2']);
-```
-
-Or even quicker: add them directly to the manager:
-
-```typescript
-manager.addSamplesFromNames(['sample1', 'sample2']);
+const list = ['sample1', 'sample2'].map(name => ({name}));
+const samples = addSamples(list);
 ```
 
 __Sample names should be unique, adding a name that already exists will throw an error.__
