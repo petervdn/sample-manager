@@ -59,7 +59,7 @@ When you have a list of these objects, you can add them to the SampleManager ins
 manager.addSamples(samples);
 ```
 
-So when you don't have any special exceptions regarding path, filename or extension, you can just use the `name` field. Samples can then be quickly created like so:
+So when you don't have any special exceptions regarding path, filename or extension, you can just use the `name` field. Samples can then be quickly added like so:
 
 ```typescript
 const list = ['sample1', 'sample2'].map(name => ({name}));
