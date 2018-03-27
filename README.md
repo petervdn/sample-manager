@@ -2,14 +2,14 @@
 
 Create, load and keep track of samples
 
-### install
+## install
 ```sh
 npm install sample-manager
 ```
 
-### creating the manager
+## creating the manager
 
-To create the SampleManager, you need an `AudioContext` instance, a basepath where the sample-files are located and a default file extension (without the dot). 
+To create the SampleManager, you need an `AudioContext` instance, a basepath where the sample-files are located and a default file extension (without the dot).
 
 ```typescript
 import SampleManager from 'sample-manager';
@@ -18,7 +18,7 @@ const context = new AudioContext();
 const manager = new SampleManager(context, 'path/to/samples', 'mp3');
 ```
 
-### adding samples
+## adding samples
 After this, you can add samples to the manager by using the `addSample` or `addSamples` method, which both need objects that adhere to the `ICreateSample` interface.
 
 ```typescript
@@ -35,7 +35,7 @@ Only the `name` property is mandatory, all others are optional. The `name` can b
 ```typescript
 const samples = [
   {
-    name: 'sample1' // when extension is 'mp3', this will load sample1.mp3 
+    name: 'sample1' // when extension is 'mp3', this will load sample1.mp3
   },
   {
     name: 'sample2',
@@ -43,11 +43,11 @@ const samples = [
   },
   {
     name: 'sample3',
-    fileName: 'sample3.v11.final2' // will not use the name to load the file 
+    fileName: 'sample3.v11.final2' // will not use the name to load the file
   },
   {
     name: 'car',
-    path: 'car-sounds/' // will be appended to the basepath when loading 
+    path: 'car-sounds/' // will be appended to the basepath when loading
   },
 ]
 ```
@@ -59,24 +59,17 @@ When you have a list of these objects, you can add them to the SampleManager ins
 manager.addSamples(samples);
 ```
 
-When you don't have any special exceptions regarding path, filename or extension, and only want to use the `name` field, you can use the `createSamplesFromNames` function like so:
+So when you don't have any special exceptions regarding path, filename or extension, you can just use the `name` field. Samples can then be quickly added like so:
 
 ```typescript
-import { createSamplesFromNames } from 'sample-manager';
-
-const samples = createSamplesFromNames(['sample1', 'sample2']);
-```
-
-Or even quicker: add them directly to the manager:
-
-```typescript
-manager.addSamplesFromNames(['sample1', 'sample2']);
+const list = ['sample1', 'sample2'].map(name => ({name}));
+manager.addSamples(list);
 ```
 
 __Sample names should be unique, adding a name that already exists will throw an error.__
 
-### sample objects
-After adding, all objects will be converted to the `ISample` interface, which extends `ICreateSample` and adds two properties: `audioBuffer` and `fileSize` (which default to `null` and `-1` but will have proper data once the sample is loaded). It also makes the `fileName` property no longer optional (will be either the `name` or `fileName` from the original object).   
+## sample objects
+After adding, all objects will be converted to the `ISample` interface, which extends `ICreateSample` and adds two properties: `audioBuffer` and `fileSize` (which default to `null` and `-1` but will have proper data once the sample is loaded). It also makes the `fileName` property no longer optional (will be either the `name` or `fileName` from the original object).
 
 ```typescript
 interface ISample extends ICreateSample {
@@ -87,9 +80,9 @@ interface ISample extends ICreateSample {
 
 ```
 
-### loading samples
+## loading samples
  When samples have been added, you can load them using the `loadAllSamples` method, which returns a promise.
- 
+
  ```typescript
 manager.loadAllSamples().then(() => {
     // done
@@ -101,17 +94,17 @@ If you want to load only a subset, you can refer to them by their name:
 manager.loadSamplesByName(['bird', 'car']);
 ```
 
-Both the `loadAllSamples` and `loadSamplesByName` method accept an optional callback to track the overall load progress.  
+Both the `loadAllSamples` and `loadSamplesByName` method accept an optional callback to track the overall load progress.
 
 ```typescript
 manager.loadAllSamples(progress => {});
 
 manager.loadSamplesByName(['bird', 'car'], progress => {});
 ```
-Note that this callback will not be fired at all during decoding (which happens after a file is loaded). This may not be noticable for smaller files, but when you have files containing many minutes of audio the progress will not change for a while. 
+Note that this callback will not be fired at all during decoding (which happens after a file is loaded). This may not be noticable for smaller files, but when you have files containing many minutes of audio the progress will not change for a while.
 
 
-### retrieving samples
+## retrieving samples
 ```typescript
 const sample = manager.getSampleByName('kickdrum');
 const samples = manager.getSamples();
