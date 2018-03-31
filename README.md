@@ -51,7 +51,7 @@ const samples = [
   },
 ]
 ```
-__Extensions (.mp3, .wav) should never be added to the name (when using name as filename) or filename, this needs to be supplied when actually loading the samples.__
+__Extensions (.mp3, .wav) should never be added to the name (when using name as filename) or filename, since the extension supplied in the manager's contructor will always be appended when loading.__
 
 When you have a list of these objects, you can add them to the SampleManager instance:
 
