@@ -9,7 +9,7 @@ npm install sample-manager
 
 ## creating the manager
 
-To create the SampleManager, you need an `AudioContext` instance, a basepath where the sample-files are located and a default file extension (without the dot).
+To create the SampleManager, you need an `AudioContext` instance, a basepath where the sample-files are located and a default file extension.
 
 ```typescript
 import SampleManager from 'sample-manager';
