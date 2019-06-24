@@ -107,5 +107,5 @@ Note that this callback will not be fired at all during decoding (which happens 
 ## retrieving samples
 ```typescript
 const sample = manager.getSampleByName('kickdrum');
-const samples = manager.getSamples();
+const samples = manager.getAllSamples();
 ```
